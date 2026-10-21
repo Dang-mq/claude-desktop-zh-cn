@@ -1167,7 +1167,7 @@ function Test-StructuralJsReplacement {
 
     # Lowercase single words (hours, tokens, matches...) are object keys or enum
     # values in the bundled JS, not visible text; they are translated by the DOM layer only.
-    $structuralLiterals = @('"Search"')
+    $structuralLiterals = @('"Search"', 'Search', '"Add"', 'Add')
     return ($Source -cmatch '^[a-z][A-Za-z0-9_]*$') -or ($structuralLiterals -contains $Source)
 }
 
@@ -1180,12 +1180,18 @@ function Test-StructuralJsLiteralContext {
     # Protects not only the direct KEY:"X" form but also the minified shapes that
     # pass icon/enum names as values: destructure defaults (icon:i="Add"), ternary
     # branches (icon:d?"Check":"Copy", icon:f?"Add":void 0, icon:e.length===0?"A":"B",
-    # nested chains) and nullish coalescing (icon:f??"Add"). Translating those
-    # strings breaks the icon-name lookup and renders empty button glyphs (#193).
-    $prefixStart = [Math]::Max(0, $LiteralStart - 96)
+    # nested chains), nullish coalescing (icon:f??"Add") and destructure alias defaults
+    # (icon:c}=e;h=c===void 0?"Add":c, #204). Translating those strings breaks the
+    # icon-name lookup and renders empty button glyphs (#193).
+    $prefixStart = [Math]::Max(0, $LiteralStart - 160)
     $prefix = $Text.Substring($prefixStart, $LiteralStart - $prefixStart)
+    $aliasPattern = '(?<![A-Za-z0-9_$-])[\w$-]*[Ii]con(?:Name)?\s*:\s*(?<alias>[A-Za-z0-9_$]+)\b.*?(?:=\s*\k<alias>\s*===\s*void 0\s*\?\s*|=\s*\k<alias>\s*!==\s*void 0\s*\?\s*\k<alias>\s*:\s*|(?<![A-Za-z0-9_$-])\k<alias>\s*\?\?\s*)$'
+    if ([System.Text.RegularExpressions.Regex]::IsMatch($prefix, $aliasPattern)) {
+        return $true
+    }
+    $shortPrefix = if ($prefix.Length -gt 96) { $prefix.Substring($prefix.Length - 96) } else { $prefix }
     return [System.Text.RegularExpressions.Regex]::IsMatch(
-        $prefix,
+        $shortPrefix,
         '(?<![A-Za-z0-9_$-])(?:as|component|displayName|glyph|[\w$-]*[Ii]con(?:Name)?|name|role|type)\s*[:=]\s*(?:(?:(?:(?:[^?:"''`,;{}]|"[^"]{0,60}"|''[^'']{0,60}''|`[^`]{0,60}`){1,120}?)\?\??\s*(?:"[^"]{0,80}"|''[^'']{0,80}''|`[^`]{0,80}`)\s*:\s*)*)(?:(?:(?:[^?:"''`,;{}]|"[^"]{0,60}"|''[^'']{0,60}''|`[^`]{0,60}`){1,120}?)(?:\?\??)?\s*)?(?:=\s*)?$'
     )
 }
@@ -1264,11 +1270,19 @@ namespace ClaudeZhPatch
         static readonly Regex StructuralContextRe = new Regex(
             "(?<![A-Za-z0-9_$-])(?:as|component|displayName|glyph|[\\w$-]*[Ii]con(?:Name)?|name|role|type)\\s*[:=]\\s*(?:(?:(?:(?:[^?:\\\"'`,;{}]|\\\"[^\\\"]{0,60}\\\"|'[^']{0,60}'|`[^`]{0,60}`){1,120}?)\\?\\??\\s*(?:\\\"[^\\\"]{0,80}\\\"|'[^']{0,80}'|`[^`]{0,80}`)\\s*:\\s*)*)(?:(?:(?:[^?:\\\"'`,;{}]|\\\"[^\\\"]{0,60}\\\"|'[^']{0,60}'|`[^`]{0,60}`){1,120}?)(?:\\?\\??)?\\s*)?(?:=\\s*)?$");
 
+        static readonly Regex StructuralAliasContextRe = new Regex(
+            "(?<![A-Za-z0-9_$-])[\\w$-]*[Ii]con(?:Name)?\\s*:\\s*(?<alias>[A-Za-z0-9_$]+)\\b.*?(?:=\\s*\\k<alias>\\s*===\\s*void 0\\s*\\?\\s*|=\\s*\\k<alias>\\s*!==\\s*void 0\\s*\\?\\s*\\k<alias>\\s*:\\s*|(?<![A-Za-z0-9_$-])\\k<alias>\\s*\\?\\?\\s*)$");
+
         static bool IsStructuralJsLiteralContext(string text, int literalStart)
         {
-            int prefixStart = Math.Max(0, literalStart - 96);
+            int prefixStart = Math.Max(0, literalStart - 160);
             string prefix = text.Substring(prefixStart, literalStart - prefixStart);
-            return StructuralContextRe.IsMatch(prefix);
+            if (StructuralAliasContextRe.IsMatch(prefix))
+            {
+                return true;
+            }
+            string shortPrefix = prefix.Length > 96 ? prefix.Substring(prefix.Length - 96) : prefix;
+            return StructuralContextRe.IsMatch(shortPrefix);
         }
 
         static int CountOrdinal(string text, string source)
