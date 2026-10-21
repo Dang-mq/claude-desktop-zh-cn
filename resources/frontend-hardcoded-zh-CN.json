@@ -156,10 +156,6 @@
     "\"每日简报\""
   ],
   [
-    "Default",
-    "默认"
-  ],
-  [
     "\"Display instructions, policies, or notices as a persistent strip across the top of the app window.\"",
     "\"在应用窗口顶部持续显示说明、政策或通知。\""
   ],
@@ -234,14 +230,6 @@
   [
     "This server is managed by an extension",
     "该服务器由扩展程序管理"
-  ],
-  [
-    "Command",
-    "命令"
-  ],
-  [
-    "Arguments",
-    "参数"
   ],
   [
     "View Logs",
@@ -446,10 +434,6 @@
   [
     ".dxt and .mcpb installs.",
     ".dxt 与 .mcpb 安装。"
-  ],
-  [
-    "Copy",
-    "复制"
   ],
   [
     "CORE (VM BUNDLE + CLAUDE CLI BINARY)",
@@ -1604,10 +1588,6 @@
     "返回每用户 JSON 配置覆盖层的 HTTPS 端点。响应中的值会覆盖本地设置并变为只读。"
   ],
   [
-    "Tasks",
-    "任务"
-  ],
-  [
     "Archive 1 task? You can find it in the Archived tab.",
     "要归档 1 个任务吗？你可以在“已归档”标签页中找到它。"
   ],
@@ -1618,10 +1598,6 @@
   [
     "message:F?`Archive ${j.items.length} ${1===j.items.length?y.noun:y.nouns}? You can find ${1===j.items.length?\"it\":\"them\"} in the Archived tab.`",
     "message:F?`归档 ${j.items.length} 个${1===j.items.length?y.noun:y.nouns}？你可以在“已归档”标签页中找到${1===j.items.length?\"它\":\"它们\"}。`"
-  ],
-  [
-    "Cancel",
-    "取消"
   ],
   [
     "children:\"Cancel\"",
@@ -2456,10 +2432,6 @@
     "发现"
   ],
   [
-    "Sort",
-    "排序"
-  ],
-  [
     "From Anthropic",
     "来自 Anthropic"
   ],
@@ -2468,20 +2440,12 @@
     "中文（普通话）"
   ],
   [
-    "Normal",
-    "正常"
-  ],
-  [
     "Theme",
     "主题"
   ],
   [
     "Chat font",
     "聊天字体"
-  ],
-  [
-    "Voice",
-    "语音"
   ],
   [
     "Style",
@@ -3326,10 +3290,6 @@
   [
     "Claude will keep these in mind for this and any of your associated accounts across Cowork tasks within ",
     "Claude 将在符合 Anthropic 准则的前提下，在 Cowork 任务中为当前及所有关联账号记住这些内容，但须遵守 "
-  ],
-  [
-    "Settings",
-    "设置"
   ],
   [
     "Keep computer awake while Claude works",
