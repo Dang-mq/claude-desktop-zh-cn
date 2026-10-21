@@ -1168,7 +1168,7 @@ function Test-StructuralJsReplacement {
     # Lowercase single words (hours, tokens, matches...) are object keys or enum
     # values in the bundled JS, not visible text; they are translated by the DOM layer only.
     # Structural literal skip list: high-risk words used as icon names, key modifiers,
-    # event suffixes, or core identifiers (#193, #204, #205).
+    # event suffixes, or core identifiers (#193, #204, #205, #206).
     $structuralLiterals = @(
         '"Search"', 'Search',
         '"Add"', 'Add',
@@ -1182,7 +1182,9 @@ function Test-StructuralJsReplacement {
         '"Voice"', 'Voice',
         '"Default"', 'Default',
         '"Arguments"', 'Arguments',
-        '"Normal"', 'Normal'
+        '"Normal"', 'Normal',
+        '"Application"', 'Application',
+        '"Medium"', 'Medium'
     )
     return ($Source -cmatch '^[a-z][A-Za-z0-9_]*$') -or ($structuralLiterals -contains $Source)
 }

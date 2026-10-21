@@ -48,8 +48,8 @@ ASAR_INTEGRITY_BLOCK_SIZE = 4 * 1024 * 1024
 # 状态值，而不是可见文案；静态替换会改坏程序逻辑（例如用量图表按 "tokens" 取指标，
 # 被改成 "令牌" 后读 undefined.daily 使会话页整页崩溃）。这类词条只走在线 DOM 翻译。
 STRUCTURAL_JS_IDENTIFIER_RE = re.compile(r"[a-z][A-Za-z0-9_]*")
-# 结构性字面量跳过列表：兼作图标名、按键映射、事件后缀或核心标识符的高危单词（#193, #204, #205）。
-# 这些短词在前端 bundle 中几乎都承担程序逻辑（图标字形查询、按键事件处理、动画状态等），
+# 结构性字面量跳过列表：兼作图标名、按键映射、事件后缀、枚举值或核心标识符的高危单词（#193, #204, #205, #206）。
+# 这些短词在前端 bundle 中几乎都承担程序逻辑（图标字形查询、按键事件处理、动画状态、无障碍节点判断等），
 # 真正的可见文案全部由官方 i18n（React Intl defaultMessage）映射翻译，静态替换只会破坏运行时。
 STRUCTURAL_JS_LITERAL_REPLACEMENTS = {
     '"Search"',
@@ -78,6 +78,10 @@ STRUCTURAL_JS_LITERAL_REPLACEMENTS = {
     "Arguments",
     '"Normal"',
     "Normal",
+    '"Application"',
+    "Application",
+    '"Medium"',
+    "Medium",
 }
 # 结构上下文保护：除 KEY:"X" 直接形式外，还需覆盖压缩代码里同样把值当图标名/枚举名
 # 使用的写法（缺一不可，否则字符串被译成中文后按名查图标表失败，按钮渲染成空白方块）：

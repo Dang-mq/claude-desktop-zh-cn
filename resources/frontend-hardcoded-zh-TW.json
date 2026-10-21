@@ -2128,10 +2128,6 @@
     "小"
   ],
   [
-    "Medium",
-    "中"
-  ],
-  [
     "Large",
     "大"
   ],
@@ -2210,10 +2206,6 @@
   [
     "Created when you sign in to Claude Code. Revoke a token to sign out from that device.",
     "在登入 Claude Code 時建立。撤銷權杖以從該裝置登出。"
-  ],
-  [
-    "Application",
-    "應用程式"
   ],
   [
     "Scopes",

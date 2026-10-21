@@ -36,10 +36,6 @@
     "\"外观\""
   ],
   [
-    "Application",
-    "应用程序"
-  ],
-  [
     "Allow Claude to automatically classify sessions as blocked, ready for review, or done. Classifying sessions counts towards your plan usage. Applies to new sessions.",
     "允许 Claude 自动将会话分类为已阻止、待审核或已完成。分类会话会计入你的计划用量。适用于新会话。"
   ],
@@ -2742,10 +2738,6 @@
   [
     "Small",
     "小"
-  ],
-  [
-    "Medium",
-    "中"
   ],
   [
     "Large",
