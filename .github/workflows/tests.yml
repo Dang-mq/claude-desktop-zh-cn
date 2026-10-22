@@ -33,11 +33,13 @@ jobs:
         run: |
           ./tests/Test-StructuralReplacements.ps1
           ./tests/Test-SlashCommandMenu.ps1
+          ./tests/Test-UnregisterLanguage.ps1
       - name: PowerShell 7 跨平台测试
         if: runner.os == 'Linux'
         shell: pwsh
         run: |
           ./tests/Test-StructuralReplacements.ps1
           ./tests/Test-SlashCommandMenu.ps1
+          ./tests/Test-UnregisterLanguage.ps1
       - name: 差异空白检查
         run: git diff --check HEAD^ HEAD
