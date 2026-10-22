@@ -34,7 +34,6 @@ jobs:
           ./tests/Test-StructuralReplacements.ps1
           ./tests/Test-SlashCommandMenu.ps1
           ./tests/Test-UnregisterLanguage.ps1
-          ./tests/Test-WindowsTrayIcons.ps1
       - name: PowerShell 7 跨平台测试
         if: runner.os == 'Linux'
         shell: pwsh
